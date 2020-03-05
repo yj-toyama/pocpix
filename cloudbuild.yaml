@@ -1,9 +1,9 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/yj-pro/im:$SHORT_SHA', '.' ]
+  args: [ 'build', '-t', 'gcr.io/yj-pro/im:$COMMIT_SHA', '.' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push' ,'gcr.io/yj-pro/im:$SHORT_SHA' ]
+  args: [ 'push' ,'gcr.io/yj-pro/im:$$COMMIT_SHA' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
