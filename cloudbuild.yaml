@@ -1,9 +1,10 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/yj-pro/im:11', '.' ]
+  entrypoint: sh
+  args: [ '-c', 'build -t gcr.io/yj-pro/im:12 .' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push' ,'gcr.io/yj-pro/im:11' ]
+  args: [ 'push' ,'gcr.io/yj-pro/im:12' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
