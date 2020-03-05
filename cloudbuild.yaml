@@ -1,6 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/yj-pro/im:$(cat txt)', '.' ]
+  entrypoint: sh
+  args: [ '-c','build', '-t', 'gcr.io/yj-pro/im:$(cat txt)', '.' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'push' ,'gcr.io/yj-pro/im:$(cat txt)' ]
