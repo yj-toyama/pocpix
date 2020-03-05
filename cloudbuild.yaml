@@ -1,0 +1,16 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/yj-pro/im:v1', '.' ]
+  id: docker build
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'push' ,'gcr.io/yj-pro/im:v1' ]
+  id: docker push
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
+  id: gcloud container clusters get-credentials
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: [ 'apply', '-f', 'apps-gcp.yaml' ]
+  id: kubectl apply
+  env:
+    - "CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a"
+    - "CLOUDSDK_CONTAINER_CLUSTER=testrepo"
