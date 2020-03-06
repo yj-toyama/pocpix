@@ -1,7 +1,6 @@
 steps:
-- name: gcr.io/cloud-builders/gcloud
-  entrypoint: sh
-  args: ['-c','$(curl https://api.github.com/search/issues?q=repo:yj-toyama/pocpix%20pr:merged%2083f1e6e1cc38bd212f9a5f6d7e31b0ae62e24550 | grep html_url -m1) > _GITTAG']
+- name: gcr.io/cloud-builders/curl
+  args: ['https://api.github.com/search/issues?q=repo:yj-toyama/pocpix%20pr:merged%2083f1e6e1cc38bd212f9a5f6d7e31b0ae62e24550', '--output', 'GITULR']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
   args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(echo _GITTAG) .' ]
