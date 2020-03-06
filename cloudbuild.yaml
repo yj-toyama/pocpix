@@ -1,6 +1,8 @@
 steps:
 - name: 'gcr.io/yj-pro/ubuntu-curl'
   args: ['bash', '-c', 'curl https://api.github.com/search/issues?q=repo:yj-toyama/pocpix pr:${_HASH} | grep number | sed "s/ //g" | sed "s/,//g" | sed "s/\"//g" | sed "s/://g" > _TAG']
+- name: 'ubuntu'
+  args: ['bash', '$(cat _TAG)']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
   args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(cat _TAG) .' ]
