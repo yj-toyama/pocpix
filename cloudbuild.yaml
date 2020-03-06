@@ -1,19 +1,13 @@
 steps:
-- name: gcr.io/cloud-builders/gcloud
-  entrypoint: "bash"
-  args:
-                  - "-c"
-                  - |
-                      _GITURL=$(curl https://api.github.com/search/issues?q=repo:yj-toyama/pocpix%20pr:merged%2083f1e6e1cc38bd212f9a5f6d7e31b0ae62e24550 | grep html_url -m1)
 - name: 'gcr.io/yj-pro/ubuntu-curl'
   args: ['bash', './curl.bash']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:a .' ]
+  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(cat GITTAG) .' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: ['-c', 'docker push gcr.io/yj-pro/im:a' ]
+  args: ['-c', 'docker push gcr.io/yj-pro/im:$(cat GITTAG)' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
