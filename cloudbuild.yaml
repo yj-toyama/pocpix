@@ -9,11 +9,11 @@ steps:
   args: ['bash', './curl.bash']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(echo GITTAG) .' ]
+  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:a .' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: ['-c', 'docker push gcr.io/yj-pro/im:$(echo GITTAG)' ]
+  args: ['-c', 'docker push gcr.io/yj-pro/im:a' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
