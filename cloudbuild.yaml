@@ -1,13 +1,15 @@
 steps:
 - name: 'gcr.io/yj-pro/ubuntu-curl'
   args: ['bash', './curl.bash']
+- name: 'ubuntu'
+  args: ['bash', '-c', 'cat GITTAG > _TAG']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$_TAG .' ]
+  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(cat _TAG) .' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: ['-c', 'docker push gcr.io/yj-pro/im:$_TAG' ]
+  args: ['-c', 'docker push gcr.io/yj-pro/im:$(cat _TAG)' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
@@ -18,5 +20,3 @@ steps:
   env:
     - "CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a"
     - "CLOUDSDK_CONTAINER_CLUSTER=testrepo"
-substitutions:
-    _TAG: $(cat ./GITTAG)
