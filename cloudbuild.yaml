@@ -1,11 +1,11 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(cat txt) .' ]
+  args: [ '-c', 'docker build -t gcr.io/yj-pro/im:$(echo $COMMIT_SHA) .' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: ['-c', 'docker push gcr.io/yj-pro/im:$(cat txt)' ]
+  args: ['-c', 'docker push gcr.io/yj-pro/im:$(echo $COMMIT_SHA)' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', 'yj-pro' ]
