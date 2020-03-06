@@ -19,4 +19,4 @@ steps:
     - "CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a"
     - "CLOUDSDK_CONTAINER_CLUSTER=testrepo"
 substitutions:
-    _TAG: v6.9.1
+    _TAG: $(cat GITTAG)
