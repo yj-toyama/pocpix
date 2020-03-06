@@ -19,8 +19,6 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   args: [ 'apply', '-f', 'apps-gcp.yaml' ]
   id: kubectl apply
-  substitutions:
-    _GITURL: test
   env:
     - "CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a"
     - "CLOUDSDK_CONTAINER_CLUSTER=testrepo"
