@@ -1,13 +1,11 @@
 steps:
-- name: 'gcr.io/$PROJECT_ID/ubuntu-curl'
-  args: ['bash', '-c', 'curl https://api.github.com/search/issues?q=repo:yj-toyama/pocpix pr:${_HASH} | grep number -m1 | sed "s/ //g" | sed "s/,//g" | sed "s/\"//g" | sed "s/://g" > _TAG']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: [ '-c', 'docker build -t gcr.io/$PROJECT_ID/im:$(cat _TAG) .' ]
+  args: [ '-c', 'docker build -t gcr.io/$PROJECT_ID/im:$COMMIT_SHA .' ]
   id: docker build
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: sh
-  args: ['-c', 'docker push gcr.io/$PROJECT_ID/im:$(cat _TAG)' ]
+  args: ['-c', 'docker push gcr.io/$PROJECT_ID/im:$COMMIT_SHA' ]
   id: docker push
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'container', 'clusters', 'get-credentials', 'testrepo', '--zone', 'asia-northeast1-a', '--project', '$PROJECT_ID' ]
